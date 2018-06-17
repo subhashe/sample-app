@@ -15,3 +15,4 @@ node {
 			sh 'docker run -d subhashe/sample-app'
 		}
 	}
+}
