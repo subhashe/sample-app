@@ -12,7 +12,7 @@ node {
 	}
     stage('Deploy to Production'){
 		docker.withServer('tcp://production:2376', 'production'){
-			sh 'docker run --add-host production:192.168.1.121 -d subhashe/sample-app'
+			sh 'docker --tlsverify --add-host production:192.168.1.121 run  -d subhashe/sample-app'
 		}
 	}
 }
