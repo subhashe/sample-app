@@ -6,11 +6,11 @@ node {
 	}
 
     stage('Publish to Docker Hub'){
-		docker.withRegistry("https://index.docker.io", "dockerhub")}	{
+		docker.withRegistry("https://index.docker.io/v1", "dockerhub")	{
 		    app.push('latest')
 			}
 	}
-	stage('Deploy to Production'){
+    stage('Deploy to Production'){
 		docker.withServer('tcp://production:2376', 'production'){
 			sh 'docker run -d subhashe/sample-app'
 		}
