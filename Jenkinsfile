@@ -12,7 +12,7 @@ node {
 	}
     stage('Deploy to Production'){
 		docker.withServer('tcp://production:2376', 'production'){
-			sh 'GODEBUG=netdns=cgo docker --tlsverify run  -d subhashe/sample-app'
+			sh 'docker --tlsverify run  -d subhashe/sample-app'
 		}
 	}
 }
