@@ -11,8 +11,11 @@ node {
 			}
 	}
     stage('Deploy to Production'){
-		docker.withServer('tcp://production:2376', 'production'){
-			sh 'docker --tlsverify run --dns 192.168.1.120 --dns-search sunnybank.containeryard.com. -d subhashe/sample-app'
-		}
+	      steps {
+         bash '''#!/bin/bash
+	         export DOCKER_HOME=tcp://production
+		 docker --tlsverify run -d subhashe/sample-app
+         '''
+             }
 	}
 }
