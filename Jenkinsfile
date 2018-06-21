@@ -11,7 +11,7 @@ node {
 			}
 	}
     stage('Deploy to Production'){
-	     sh '/bin/bash && whoami && export DOCKER_HOME=tcp://production:2376 && docker --tlsverify run  -d subhashe/sample-app'
+	     sh '/bin/bash && whoami && export DOCKER_HOST=tcp://production:2376 && docker --tlsverify run  -d subhashe/sample-app'
              }
 	
 }
