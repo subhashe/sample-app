@@ -1,17 +1,20 @@
 node {
     def app
+    def source 
 	stage('Build Docker Image') {
-	    checkout scm
-		app = docker.build('subhashe/sample-app:latest')
+	   source = checkout(scm)
+		app = docker.build("subhashe/sample-app:${env.BUILD_ID}". "--label subhashe.sample.commit=${source.GIT_COMMIT} .")
 	}
 
     stage('Publish to Docker Hub'){
 		docker.withRegistry("", "dockerhub")	{
-		    app.push('latest')
+		    app.push(env.BUILD_ID)
 			}
 	}
     stage('Deploy to Production'){
-	     sh '/bin/bash && whoami && export DOCKER_HOST=tcp://production:2376 && docker --tlsverify run  -d subhashe/sample-app'
+	    docker.withServer('tcp://production:2376', 'production') {
+		    sh " docker service update --image subhashe/sample-app:${env.BUILD_ID} sample"
              }
+    }
 	
 }
